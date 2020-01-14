@@ -116,6 +116,12 @@ def game_splash_scene():
     text_1.move(13, 60)
     text_1.text("ELEMENTAL STUDIOS")
     text.append(text_1)
+
+    text_2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text_2.move(40, 80)
+    text_2.text("PRESENTS...")
+    text.append(text_2)
+
     fire_upper_right = stage.Sprite(image_bank_4, 0, 16, 0)
     sprites.append(fire_upper_right)
     fire_bottom_right = stage.Sprite(image_bank_4, 1, 16, 16)
@@ -192,10 +198,6 @@ def main_menu_scene():
     sound.stop()
     sound.mute(False)
 
-    pew_sound = open("pew2.wav", 'rb')
-    sound.stop()
-    sound.mute(False)
-
     text_1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     text_1.move(40, 20)
     text_1.text("JUNGLE JOE")
@@ -211,6 +213,10 @@ def main_menu_scene():
     text_3.text("BONGO BANANZA!")
     text.append(text_3)
 
+    text_3 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text_3.move(0, 0)
+    text_3.text("Version:{0}".format(constants.VERSION_NUMBER))
+    text.append(text_3)
 
     start_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     start_text.clear()
@@ -516,7 +522,7 @@ def game_scene(game_mode):
     score_text.clear()
     score_text.cursor(0, 0)
     score_text.move(1, 1)
-    score_text.text("Score: {0}".format(score))
+    score_text.text("Score:{0}".format(score))
     text.append(score_text)
 
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
@@ -528,11 +534,12 @@ def game_scene(game_mode):
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in multiple places
         # update the score when you correctly hit a button or when you hit a milestone
-        score += 1
+        score = score + 1
+        # Refreshes score text
         score_text.clear()
         score_text.cursor(0, 0)
         score_text.move(1, 1)
-        score_text.text("Score: {0}".format(score))
+        score_text.text("Score:{0}".format(score))
         game.render_block()
         if score % 10 == 0:
             sound.play(coin_sound)
@@ -711,6 +718,7 @@ def game_scene(game_mode):
 
     # Opening animation
     while True:
+        # I know its not good to  have 2 game loops, but its alot easier to do it this way.
         if jungle_joe_jumping.y < constants.JUNGLE_JOE_NORMAL_Y:
             jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
             game.render_sprites(jungle_joe)
@@ -887,7 +895,6 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_abutton()
 
-
         for b_button_number in range(len(bbutton)):
             if bbutton[b_button_number].x > 0 and b_button == constants.button_state["button_just_pressed"]:
                 if stage.collide(bbutton[b_button_number].x, bbutton[b_button_number].y,
@@ -1053,6 +1060,10 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_rightbutton()
 
+        if keys & ugame.K_START != 0 or keys & ugame.K_SELECT != 0:
+            # Crashes game because not enough memory
+            main_menu_scene()
+
         if number_of_lives == 5:
             for pixel_number in range(0, 5):
                     pixels[pixel_number] = (0, 10, 0)
@@ -1125,10 +1136,6 @@ def game_over_scene(final_score, final_height):
     sound.stop()
     sound.mute(False)
 
-    pew_sound = open("pew2.wav", 'rb')
-    sound.stop()
-    sound.mute(False)
-
     text = []
 
     text0 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
@@ -1137,8 +1144,8 @@ def game_over_scene(final_score, final_height):
     text.append(text0)
 
     text2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text2.move(5, 30)
-    text2.text("Final Height: {:0>2d}ft".format(final_height))
+    text2.move(37, 30)
+    text2.text("Height: {:0>2d}ft".format(final_height))
     text.append(text2)
 
     text1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
@@ -1203,7 +1210,7 @@ def game_over_scene(final_score, final_height):
 
         #print(keys)
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
-            sound.play(pew_sound)
+
             if option == 0:
                 option = 1
                 menu_text.clear()
