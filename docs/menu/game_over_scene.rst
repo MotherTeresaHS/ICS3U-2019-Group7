@@ -10,9 +10,7 @@ The only image bank you will need is the jungle joe image bank as it will act as
 Now set the background like we have done in all the other scenes, after the background is set we must create the text for this scene. The text will display your final score, your final height, GAME OVER, and if you would like to retry or return to menu scene.
 
 The code to display the text is:
-
 .. toctree::
-    
     text = []
 
     text0 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
@@ -46,9 +44,7 @@ The code to display the text is:
 
 
 Next we need to set up the option to go back to menu or retry the game. To do this we have to set up the buttons to accept inputs and to change which screen you go to depending on which option the user presses. To do this you will need this code which codes for the user selecting the option they desire and them using their up and down arrow keys to go to the option.
-
 .. toctree::
-    
     while True:
         # get user input
         keys = ugame.buttons.get_pressed()
@@ -119,9 +115,7 @@ Next we need to set up the option to go back to menu or retry the game. To do th
 
 
 After you input all this code you must add the render text option and add in all variables you need. After all this is done your code should look like this:
-
 .. toctree::
-
     def game_over_scene(final_score, final_height):
     # this function is the game over scene
     option = 0
