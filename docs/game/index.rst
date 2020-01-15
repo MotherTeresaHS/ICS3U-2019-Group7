@@ -553,6 +553,7 @@ After you have finished with the game scene you may add sounds if you desire, th
             for pixel_number in range(5):
                     pixels[pixel_number] = (25, 0, 0)
                     pixels.show()
+                    game_over_scene(score, height)
 
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
